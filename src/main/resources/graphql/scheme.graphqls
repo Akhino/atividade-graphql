@@ -1,0 +1,76 @@
+# --- INTERFACE GENÉRICA ---
+interface Character {
+    id: ID!
+    name: String!
+    appearsIn: [String!]!
+}
+
+# --- TIPOS DE OBJETOS ---
+type User {
+    name: String
+}
+
+type Hero {
+    id: ID!
+    name: String!
+    appearsIn: [String!]!
+}
+
+# Droid agora implementa a interface Character
+type Droid implements Character {
+    id: ID!
+    name: String!
+    appearsIn: [String!]!
+    primaryFunction: String
+}
+
+# Criado o tipo Human (que também implementa Character)
+type Human implements Character {
+    id: ID!
+    name: String!
+    appearsIn: [String!]!
+    height: Float
+}
+
+# Criado o tipo Starship
+type Starship {
+    id: ID!
+    name: String!
+    length: Float
+}
+
+type Review {
+    id: ID!
+    stars: Int!
+    commentary: String
+}
+
+# --- INPUTS ---
+input ReviewInput {
+    stars: Int!
+    commentary: String
+}
+
+# --- OPERAÇÕES RAIZ (QUERIES E MUTATIONS) ---
+
+type Query {
+    me: User
+    hero: Hero
+    droid(id: ID!): Droid
+    review(id: ID!): Review
+    
+    # Novas Queries adicionadas:
+    humans: [Human!]!
+    starships: [Starship!]!
+    character(id: ID!): Character
+}
+
+type Mutation {
+    createReview(review: ReviewInput!): Review
+    
+    # Novas Mutations adicionadas:
+    createHuman(id: ID!, name: String!, height: Float): Human
+    createDroid(id: ID!, name: String!, primaryFunction: String): Droid
+    createStarship(id: ID!, name: String!, length: Float): Starship
+    addFriend(characterId: ID!, friendId: ID!): Character
+}
